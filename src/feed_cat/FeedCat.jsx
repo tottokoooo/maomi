@@ -10,21 +10,21 @@ const lifeMap = {
   life25: () => import("../images/life25.png"),
   life0: () => import("../images/life0.png"),
 };
-let lifeTimerId = "";
 
 export default function FeedCat(props) {
   const { setPage } = props;
   const [life, setLife] = useState(parseInt(localStorage.getItem("life")));
   const [catState, setcatState] = useState("Idle");
+  const lifeTimerId = useRef(null);
 
   useEffect(() => {
     if (catState === "Idle") {
-      lifeTimerId = setInterval(() => {
+      lifeTimerId.current = setInterval(() => {
         setLife((number) => (number - 25 < 0 ? endLife() : number - 25));
       }, 100530000);
     }
     if (catState === "Eating") {
-      clearInterval(lifeTimerId);
+      clearInterval(lifeTimerId.current);
       if (life < 100) setLife((number) => number + 25);
       setTimeout(() => setcatState("Idle"), 3000);
     }
@@ -32,7 +32,7 @@ export default function FeedCat(props) {
 
   //生命結束->清空localStore、換頁面
   const endLife = () => {
-    clearInterval(lifeTimerId);
+    clearInterval(lifeTimerId.current);
     setPage();
   };
 
