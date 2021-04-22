@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, useReducer } from "react";
+import { useRef, useState, useEffect } from "react";
 import Alive from "../Alive";
 import GiveFood from "./GiveFood";
 import birthdayCake from "../images/birthday_cake.png";
