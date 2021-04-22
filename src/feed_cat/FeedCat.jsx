@@ -14,55 +14,26 @@ const lifeMap = {
 export default function FeedCat(props) {
   const { setPage } = props;
   const [life, setLife] = useState(parseInt(localStorage.getItem("life")));
-  const [isFeeding, setFeedingState] = useState(false);
-  const intervalRef = useRef(null);
+  const [catState, setcatState] = useState("Idle");
+  const lifeTimerId = "";
 
   useEffect(() => {
-    const setImgModule = async () => {
-      console.log(life);
-      const lifeNumber = `life${life}`;
-      const importer = lifeMap[lifeNumber];
-      const lifeImgModule = await importer();
-      document.querySelector("#lifeImg").src = lifeImgModule.default;
-    };
-    setImgModule();
-    localStorage.setItem("life", life);
-  }, [life]);
-
-  useEffect(() => {
-    //餵食
-    if (isFeeding) {
-      //clearInterval(intervalRef.current); //暫停life的計時
-      setLife((number) => {
-        if (life < 100) return number + 25;
-        else return number;
-      }); //幫他加生命值
-      //setTimeout(setFeedingState(() => false), 1200000); //等?秒拿下食物
-      setFeedingState(() => false);
+    if (catState === "Idle") {
+      lifeTimerId = setInterval(() => {
+        setLife((number) => (number - 25 < 0 ? endLife() : number - 25));
+      }, 3000);
     }
+    if (catState === "Eating") {
+      clearInterval(lifeTimerId);
+      if (life < 100) setLife((number) => number + 25);
+      setTimeout(setcatState("Idle"), 1200000);
+    }
+  });
 
-    //生命結束->清空localStore、換頁面
-    const endLife = () => {
-      clearInterval(intervalRef.current);
-      setPage();
-    };
-
-    //每?秒減少25生命值，若減少後<0則死亡
-    intervalRef.current = setInterval(() => {
-      setLife((number) => (number - 25 < 0 ? endLife() : number - 25));
-    }, 30000);
-
-    //每1秒紀錄一次年紀
-    setInterval(() => {
-      localStorage.setItem(
-        "age_second",
-        parseInt(localStorage.getItem("age_second")) + 1
-      );
-    }, 1000);
-  }, [isFeeding]);
-
-  const feedCat = () => {
-    setFeedingState(() => true);
+  //生命結束->清空localStore、換頁面
+  const endLife = () => {
+    clearInterval(lifeTimerId);
+    setPage();
   };
 
   return (
@@ -85,9 +56,9 @@ export default function FeedCat(props) {
 
       <div className="catHome">
         <Alive type={localStorage.getItem("type")} />
-        {isFeeding && <GiveFood />}
+        {catState === "Eating" && <GiveFood />}
       </div>
-      <button onClick={feedCat}>feed</button>
+      <button onClick={setcatState("Eating")}>feed</button>
     </>
   );
 }
