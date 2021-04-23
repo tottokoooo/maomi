@@ -1,6 +1,5 @@
 import { useRef, useState, useEffect } from "react";
 import Alive from "../Alive";
-import GiveFood from "./GiveFood";
 import birthdayCake from "../images/birthday_cake.png";
 
 const lifeMap = {
@@ -11,22 +10,71 @@ const lifeMap = {
   life0: () => import("../images/life0.png"),
 };
 
+const foodType = ["can", "milk", "fish"];
+const foodMap = {
+  can: () => import("../images/can.png"),
+  milk: () => import("../images/milk.png"),
+  fish: () => import("../images/fish.png"),
+};
+
 export default function FeedCat(props) {
   const { setPage } = props;
   const [life, setLife] = useState(parseInt(localStorage.getItem("life")));
   const [catState, setcatState] = useState("Idle");
   const lifeTimerId = useRef(null);
+  const foodImgRef = useRef(null);
 
   useEffect(() => {
+    const setImgModule = async (number) => {
+      const lifeNumber = `life${number}`;
+      const importer = lifeMap[lifeNumber];
+      const lifeImgModule = await importer();
+      document.querySelector("#lifeImg").src = lifeImgModule.default;
+    };
+    setImgModule(parseInt(localStorage.getItem("life"))); //這樣每次改變貓咪狀態而渲染時都會先改成100再改成正確的
+
     if (catState === "Idle") {
       lifeTimerId.current = setInterval(() => {
-        setLife((number) => (number - 25 < 0 ? endLife() : number - 25));
-      }, 100530000);
+        setLife((number) => {
+          if (number - 25 < 0) endLife();
+          else {
+            number = number - 25;
+            localStorage.setItem("life", number);
+            setImgModule(number);
+          }
+          return number;
+        });
+      }, 10000);
     }
-    if (catState === "Eating") {
+    if (catState === "Eating" && life < 100) {
+      const setFoodImgModule = async () => {
+        let randomFoodIndex = Math.floor(Math.random() * 3);
+
+        let foodImg = new Image();
+        const importer = foodMap[foodType[randomFoodIndex]];
+        const setFoodImgModule = await importer();
+        console.log(setFoodImgModule.default);
+        foodImg.src = setFoodImgModule.default;
+        foodImg.onload = () => {
+          foodImgRef.current = foodImg;
+        };
+      };
+      setFoodImgModule();
+
       clearInterval(lifeTimerId.current);
-      if (life < 100) setLife((number) => number + 25);
-      setTimeout(() => setcatState("Idle"), 3000);
+
+      setLife((number) => {
+        number += 25;
+        setImgModule(number);
+        localStorage.setItem("life", number);
+        return number;
+      });
+
+      setTimeout(() => {
+        setcatState("Idle");
+      }, 3000);
+    } else {
+      console.log("我不餓");
     }
   }, [catState]);
 
@@ -60,7 +108,7 @@ export default function FeedCat(props) {
 
       <div className="catHome">
         <Alive type={localStorage.getItem("type")} />
-        {catState === "Eating" && <GiveFood />}
+        {catState === "Eating" && <img src={foodImgRef} />}
       </div>
       <button onClick={feedCat}>feed</button>
     </>
