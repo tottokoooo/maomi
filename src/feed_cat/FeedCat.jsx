@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import Alive from "../Alive";
 import birthdayCake from "../images/birthday_cake.png";
 
@@ -22,7 +22,7 @@ export default function FeedCat(props) {
   const [life, setLife] = useState(parseInt(localStorage.getItem("life")));
   const [catState, setcatState] = useState("Idle");
   const lifeTimerId = useRef(null);
-  const foodImgRef = useRef(null);
+  const [foodImgRef, setFoodImgRef] = useState(null);
 
   useEffect(() => {
     const setImgModule = async (number) => {
@@ -45,19 +45,15 @@ export default function FeedCat(props) {
           return number;
         });
       }, 10000);
+      return;
     }
-    if (catState === "Eating" && life < 100) {
+
+    if (catState === "Eating") {
       const setFoodImgModule = async () => {
         let randomFoodIndex = Math.floor(Math.random() * 3);
-
-        let foodImg = new Image();
         const importer = foodMap[foodType[randomFoodIndex]];
         const setFoodImgModule = await importer();
-        console.log(setFoodImgModule.default);
-        foodImg.src = setFoodImgModule.default;
-        foodImg.onload = () => {
-          foodImgRef.current = foodImg;
-        };
+        setFoodImgRef(() => setFoodImgModule.default);
       };
       setFoodImgModule();
 
@@ -73,8 +69,7 @@ export default function FeedCat(props) {
       setTimeout(() => {
         setcatState("Idle");
       }, 3000);
-    } else {
-      console.log("我不餓");
+      return;
     }
   }, [catState]);
 
@@ -85,6 +80,7 @@ export default function FeedCat(props) {
   };
 
   const feedCat = () => {
+    if (life === 100) return;
     setcatState("Eating");
   };
 
