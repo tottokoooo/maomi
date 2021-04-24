@@ -1,0 +1,29 @@
+#lifeImg {
+  width: 120px;
+}
+
+.cakeImg {
+  width: 50px;
+}
+
+table {
+  width: 425px;
+}
+
+.catHome {
+  table-layout: fixed;
+}
+
+.foodImg {
+  margin-top: 90px;
+  margin-right: 110px;
+  width: 70px;
+}
+
+.feedButton {
+  font-family: "Press Start 2P", cursive;
+  font-size: 25px;
+  color: gray;
+  border: thin;
+  background-color: rgb(253, 253, 253);
+}

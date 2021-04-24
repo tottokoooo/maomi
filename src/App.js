@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import "./style/App.css";
-import StartPage from "./start_page/StartPage";
-import MineTest from "./mine_test/MineTest";
-import FeedCat from "./feed_cat/FeedCat";
-import GameOver from "./game_over/GameOver";
 import logo from "./images/logo.png";
+import FeedCatPage from "./pages/CatFeedingPage";
+import GameOverPage from "./pages/GameOverPage";
+import MineTestPage from "./pages/MineTestPage";
+import StartPage from "./pages/StartPage";
+import "./styles/App.css";
 
 export default function App() {
   const page = ["Start", "Test", "Feed", "Over"];
@@ -24,9 +24,9 @@ export default function App() {
       </div>
       <div className="pages">
         {page[currentPage] === "Start" && <StartPage setPage={change} />}
-        {page[currentPage] === "Test" && <MineTest setPage={change} />}
-        {page[currentPage] === "Feed" && <FeedCat setPage={change} />}
-        {page[currentPage] === "Over" && <GameOver setPage={change} />}
+        {page[currentPage] === "Test" && <MineTestPage setPage={change} />}
+        {page[currentPage] === "Feed" && <FeedCatPage setPage={change} />}
+        {page[currentPage] === "Over" && <GameOverPage setPage={change} />}
       </div>
     </>
   );

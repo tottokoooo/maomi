@@ -1,0 +1,11 @@
+.gameOver {
+  width: 150px;
+}
+
+.restartButton {
+  font-family: "Press Start 2P", cursive;
+  font-size: 25px;
+  color: gray;
+  border: thin;
+  background-color: rgb(253, 253, 253);
+}

@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import AskQuestion from "./AskQuestion";
-import AdoptCat from "./AdoptCat";
+import AdoptCat from "../components/AdoptCat";
+import AskQuestion from "../components/AskQuestion";
 import questionCatImg from "../images/question_cat.jpg";
+import "../styles/MineTestPage.css";
 
-export default function MineTest(props) {
+export default function MineTestPage(props) {
   const { setPage } = props;
   //state: start | mineTest | adoptCat
   const [picture, setPicture] = useState(0);
@@ -25,7 +26,9 @@ export default function MineTest(props) {
       {picture === 0 && (
         <div className="start">
           <p>測驗出你命中注定的貓貓吧!</p>
-          <button onClick={setNextPicture}>start</button>
+          <button className="startAskingButton" onClick={setNextPicture}>
+            start
+          </button>
         </div>
       )}
       {picture === 1 && (

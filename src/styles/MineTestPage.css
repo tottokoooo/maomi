@@ -1,0 +1,27 @@
+.showCatsImg {
+  height: 200px;
+}
+.catsImg {
+  width: 170px;
+}
+
+.yourCatsName {
+  cursor: pointer; /*指標過去時會變成手指*/
+  text-align: center;
+  background: rgb(231, 231, 231);
+  border: 0 none;
+  border-radius: 10px;
+  height: 30px;
+  font-size: 20px;
+  width: 120px;
+}
+
+.feedCatButton,
+.startAskingButton,
+.nextQuestionButton {
+  font-family: "Press Start 2P", cursive;
+  font-size: 25px;
+  color: gray;
+  border: thin;
+  background-color: rgb(253, 253, 253);
+}

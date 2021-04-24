@@ -1,14 +1,14 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 const catMap = {
-  gray: () => import("./images/gray.jpg"),
-  orange: () => import("./images/orange.jpg"),
-  allGray: () => import("./images/all_gray.jpg"),
-  flower: () => import("./images/folwer.jpg"),
+  gray: () => import("../images/gray.jpg"),
+  orange: () => import("../images/orange.jpg"),
+  allGray: () => import("../images/all_gray.jpg"),
+  flower: () => import("../images/folwer.jpg"),
 };
 
 const beginx_m = [0, 330, 660];
 
-export default function Alive(props) {
+export default function CatCanvas(props) {
   const { type } = props;
   const myCanvasRef = useRef(null);
   const [beginx, setBeginxIndex] = useState(0);
@@ -51,12 +51,12 @@ export default function Alive(props) {
       0,
       330,
       330,
-      80,
-      0,
+      20,
+      20,
       150,
       150
     );
   }, [beginx]);
 
-  return <canvas width="300" height="200" ref={myCanvasRef}></canvas>;
+  return <canvas width="200" height="200" ref={myCanvasRef}></canvas>;
 }

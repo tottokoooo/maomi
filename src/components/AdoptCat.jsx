@@ -8,7 +8,7 @@ const catMap = {
 
 export default function AdoptCat(props) {
   const { setPicture } = props;
-  const [catName, setCatName] = useState("初始");
+  const [catName, setCatName] = useState("小咪");
 
   useEffect(() => {
     const setImgModule = async () => {
@@ -45,7 +45,11 @@ export default function AdoptCat(props) {
         value={catName}
         onChange={handleInput}
       />
-      <button onClick={saveName}>feed it!</button>
+      <br />
+      <br />
+      <button className="feedCatButton" onClick={saveName}>
+        feed it!
+      </button>
     </>
   );
 }

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import Alive from "../Alive";
+import CatCanvas from "../components/CatCanvas";
 import birthdayCake from "../images/birthday_cake.png";
+import "../styles/CatFeedingPage.css";
 
 const lifeMap = {
   life100: () => import("../images/life100.png"),
@@ -17,7 +18,7 @@ const foodMap = {
   fish: () => import("../images/fish.png"),
 };
 
-export default function FeedCat(props) {
+export default function FeedCatPage(props) {
   const { setPage } = props;
   const [life, setLife] = useState(parseInt(localStorage.getItem("life")));
   const [catState, setcatState] = useState("Idle");
@@ -31,7 +32,7 @@ export default function FeedCat(props) {
       const lifeImgModule = await importer();
       document.querySelector("#lifeImg").src = lifeImgModule.default;
     };
-    setImgModule(parseInt(localStorage.getItem("life"))); //這樣每次改變貓咪狀態而渲染時都會先改成100再改成正確的
+    setImgModule(parseInt(localStorage.getItem("life")));
 
     if (catState === "Idle") {
       lifeTimerId.current = setInterval(() => {
@@ -44,7 +45,7 @@ export default function FeedCat(props) {
           }
           return number;
         });
-      }, 10000);
+      }, 5000);
       return;
     }
 
@@ -68,6 +69,7 @@ export default function FeedCat(props) {
 
       setTimeout(() => {
         setcatState("Idle");
+        setFoodImgRef(() => "");
       }, 3000);
       return;
     }
@@ -87,26 +89,63 @@ export default function FeedCat(props) {
   return (
     <>
       <div className="catInfo">
-        <p>name:</p>
-        <p>{localStorage.getItem("name")}</p>
-        <img id="lifeImg" />
-        <img alt="birthday" src={birthdayCake} />
-        <p>{localStorage.getItem("birth").split(" ").slice(1, 3)}</p>
-        <span>Age-</span>
-        <p>
-          {Math.floor(localStorage.getItem("age_second") / 3600) +
-            ":" +
-            Math.floor(
-              Math.floor(localStorage.getItem("age_second") % 3600) / 60
-            )}
-        </p>
+        <table>
+          <tbody>
+            <tr>
+              <td colSpan="3">
+                <p>姓名: {localStorage.getItem("name")}</p>
+              </td>
+            </tr>
+            <tr>
+              <td className="lifeBox">
+                <img id="lifeImg" />
+              </td>
+              <td></td>
+              <td></td>
+              <td>
+                <img className="cakeImg" alt="birthday" src={birthdayCake} />
+              </td>
+              <td>
+                <p>{localStorage.getItem("birth").split(" ").slice(1, 3)}</p>
+              </td>
+              <td></td>
+              <td></td>
+              <td>
+                <span>年齡-</span>
+              </td>
+              <td>
+                <p>
+                  {Math.floor(localStorage.getItem("age_second") / 3600) +
+                    ":" +
+                    Math.floor(
+                      Math.floor(localStorage.getItem("age_second") % 3600) / 60
+                    )}
+                </p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
-      <div className="catHome">
-        <Alive type={localStorage.getItem("type")} />
-        {catState === "Eating" && <img src={foodImgRef} />}
+      <div>
+        <table className="catHome">
+          <tbody>
+            <tr>
+              <td>
+                <CatCanvas type={localStorage.getItem("type")} />
+              </td>
+              <td>
+                {catState === "Eating" && (
+                  <img className="foodImg" src={foodImgRef} />
+                )}
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <button onClick={feedCat}>feed</button>
+      <button className="feedButton" onClick={feedCat}>
+        feed
+      </button>
     </>
   );
 }

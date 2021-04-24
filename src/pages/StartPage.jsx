@@ -1,5 +1,6 @@
-import Alive from "../Alive";
 import { useState } from "react";
+import CatCanvas from "../components/CatCanvas";
+import "../styles/StartPage.css";
 
 export default function StartPage(props) {
   const { setPage } = props;
@@ -13,18 +14,19 @@ export default function StartPage(props) {
   return (
     <>
       <div className="canvas">
-        <Alive type={catType} />
+        <CatCanvas type={catType} />
       </div>
-      <button onClick={setPage}>srart</button>
-
-      <p>
+      <button className="start_button" onClick={setPage}>
+        start
+      </button>
+      <p className="createBy">
         &copy; by
-        <a href="#" onClick={showorNot}>
+        <a className="creator" href="#" onClick={showorNot}>
           Winnie
         </a>
       </p>
       {showIntroduction && (
-        <p id="interduction">
+        <p className="interduction">
           hi!&nbsp;我是元智大學資工系的學生<b>許晴</b>ヽ(*´∀`)ﾉ
           <br />
           這是我做的一個電子貓遊戲，
