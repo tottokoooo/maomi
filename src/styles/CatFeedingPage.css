@@ -1,13 +1,9 @@
 #lifeImg {
-  width: 120px;
+  width: 100px;
 }
 
 .cakeImg {
   width: 50px;
-}
-
-table {
-  width: 425px;
 }
 
 .catHome {
@@ -15,9 +11,20 @@ table {
 }
 
 .foodImg {
-  margin-top: 90px;
-  margin-right: 110px;
   width: 70px;
+  margin-bottom: 20px;
+}
+.life-birth-age-center {
+  display: flex;
+  justify-content: center;
+}
+
+.life-birth-age-row {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  min-width: 425px;
+  align-items: center;
 }
 
 .feedButton {
@@ -26,4 +33,16 @@ table {
   color: gray;
   border: thin;
   background-color: rgb(253, 253, 253);
+}
+
+.feedButton:hover {
+  color: black;
+}
+
+.catHome {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: flex-end;
+  min-width: 225px;
 }

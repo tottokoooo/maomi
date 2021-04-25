@@ -17,11 +17,8 @@ export default function MineTestPage(props) {
   return (
     <>
       <div className="showCatsImg">
-        <img
-          className="catsImg"
-          alt="what_cat_do_you_fit?"
-          src={questionCatImg}
-        />
+        <img className="catsImg" src={questionCatImg} />
+        <img className="yourCat" src="" />
       </div>
       {picture === 0 && (
         <div className="start">

@@ -5,6 +5,10 @@
   width: 170px;
 }
 
+.yourCat {
+  width: 250px;
+}
+
 .yourCatsName {
   cursor: pointer; /*指標過去時會變成手指*/
   text-align: center;
@@ -24,4 +28,10 @@
   color: gray;
   border: thin;
   background-color: rgb(253, 253, 253);
+}
+
+.feedCatButton:hover,
+.startAskingButton:hover,
+.nextQuestionButton:hover {
+  color: black;
 }

@@ -15,7 +15,8 @@ export default function AdoptCat(props) {
       const catType = localStorage.getItem("type");
       const importer = catMap[catType];
       const catImgModule = await importer();
-      document.querySelector(".catsImg").src = catImgModule.default;
+      document.querySelector(".catsImg").src = "";
+      document.querySelector(".yourCat").src = catImgModule.default;
     };
     setImgModule();
   }, []);
