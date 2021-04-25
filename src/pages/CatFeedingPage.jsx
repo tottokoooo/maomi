@@ -46,7 +46,7 @@ export default function FeedCatPage(props) {
           }
           return number;
         });
-      }, 5000);
+      }, 60000);
       return;
     }
 
