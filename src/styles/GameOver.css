@@ -1,4 +1,4 @@
-.gameOver {
+.gameOverImg {
   width: 150px;
 }
 
@@ -12,4 +12,10 @@
 
 .restartButton:hover {
   color: black;
+}
+
+@media screen and (min-width: 426px) {
+  .gameOverImg {
+    width: 200px;
+  }
 }

@@ -7,9 +7,10 @@ export default function GameOverPage(props) {
 
   return (
     <>
-      <div className="gameOverImg">
-        <img className="gameOver" alt="game_over" src={deadCat} />
+      <div>
+        <img className="gameOverImg" alt="game_over" src={deadCat} />
       </div>
+      <br />
       <button className="restartButton" onClick={setPage}>
         resrart
       </button>

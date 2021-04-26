@@ -24,10 +24,9 @@ export default function AdoptCat(props) {
   const saveName = () => {
     localStorage.setItem("name", document.querySelector(".yourCatsName").value);
     //初始貓咪基本資料
-    localStorage.setItem("life", "100"); //初始生命值:滿血
-    localStorage.setItem("age_second", "0"); //初始年紀:0秒
-    let birthday = new Date(); //取今天的日期
-    localStorage.setItem("birth", birthday); //存他的生日
+    localStorage.setItem("life", "100");
+    const date = Date.now();
+    localStorage.setItem("birth", `${date}`);
     setPicture();
   };
 
@@ -38,15 +37,16 @@ export default function AdoptCat(props) {
 
   return (
     <>
-      <p>幫他取名子吧：</p>
-      <input
-        type="text"
-        className="yourCatsName"
-        name="name"
-        value={catName}
-        onChange={handleInput}
-      />
-      <br />
+      <div className="nameing">
+        <p>幫他取名子吧：</p>
+        <input
+          type="text"
+          className="yourCatsName"
+          name="name"
+          value={catName}
+          onChange={handleInput}
+        />
+      </div>
       <br />
       <button className="feedCatButton" onClick={saveName}>
         feed it!

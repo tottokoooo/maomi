@@ -19,12 +19,24 @@ const foodMap = {
   fish: () => import("../images/fish.png"),
 };
 
+const birth = localStorage.getItem("birth");
+const birthDate = new Date(parseInt(birth));
+
 export default function FeedCatPage(props) {
+  const [age, setAge] = useState(0);
   const { setPage } = props;
   const [life, setLife] = useState(parseInt(localStorage.getItem("life")));
   const [catState, setcatState] = useState("Idle");
   const lifeTimerId = useRef(null);
   const [foodImgRef, setFoodImgRef] = useState(null);
+  useEffect(() => {
+    setInterval(() => {
+      const secDifference = (Date.now() - localStorage.getItem("birth")) / 1000;
+      const hour = Math.floor(secDifference / 3600);
+      const minute = Math.floor(Math.floor(secDifference % 3600) / 60);
+      setAge(() => hour + ":" + minute);
+    }, 120000);
+  }, []);
 
   useEffect(() => {
     const setImgModule = async (number) => {
@@ -46,7 +58,7 @@ export default function FeedCatPage(props) {
           }
           return number;
         });
-      }, 60000);
+      }, 12000);
       return;
     }
 
@@ -76,7 +88,6 @@ export default function FeedCatPage(props) {
     }
   }, [catState]);
 
-  //生命結束->清空localStore、換頁面
   const endLife = () => {
     clearInterval(lifeTimerId.current);
     setPage();
@@ -97,15 +108,11 @@ export default function FeedCatPage(props) {
           <div className="life-birth-age-row">
             <img id="lifeImg" />
             <img className="cakeImg" alt="birthday" src={birthdayCake} />
-            <p>{localStorage.getItem("birth").split(" ").slice(1, 3)}</p>
-            <span>年齡-</span>
             <p>
-              {Math.floor(localStorage.getItem("age_second") / 3600) +
-                ":" +
-                Math.floor(
-                  Math.floor(localStorage.getItem("age_second") % 3600) / 60
-                )}
+              {birthDate.getMonth() + 1}/{birthDate.getDate()}
             </p>
+            <span>年齡-</span>
+            <p>{age}</p>
           </div>
         </div>
       </div>

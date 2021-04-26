@@ -1,6 +1,3 @@
-.showCatsImg {
-  height: 200px;
-}
 .catsImg {
   width: 170px;
 }
@@ -34,4 +31,26 @@
 .startAskingButton:hover,
 .nextQuestionButton:hover {
   color: black;
+}
+
+.nameing {
+  font-size: 20px;
+}
+
+.question,
+.answers {
+  font-size: 20px;
+}
+
+@media screen and (min-width: 426px) {
+  .yourCat {
+    width: 300px;
+  }
+  .nameing {
+    font-size: 25px;
+  }
+  .question,
+  .answers {
+    font-size: 25px;
+  }
 }
