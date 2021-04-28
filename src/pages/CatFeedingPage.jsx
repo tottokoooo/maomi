@@ -26,9 +26,15 @@ export default function FeedCatPage(props) {
   const [age, setAge] = useState(0);
   const { setPage } = props;
   const [life, setLife] = useState(parseInt(localStorage.getItem("life")));
-  const [catState, setcatState] = useState("Idle");
+  const CatState = {
+    Idle: "Idle",
+    Eating: "Eating",
+  };
+  const [catState, setcatState] = useState(CatState.Idle);
   const lifeTimerId = useRef(null);
   const [foodImgRef, setFoodImgRef] = useState(null);
+  const [lifeImgSrc, setLifeImgSrc] = useState(null);
+
   useEffect(() => {
     setInterval(() => {
       const secDifference = (Date.now() - localStorage.getItem("birth")) / 1000;
@@ -41,13 +47,13 @@ export default function FeedCatPage(props) {
   useEffect(() => {
     const setImgModule = async (number) => {
       const lifeNumber = `life${number}`;
-      const importer = lifeMap[lifeNumber];
-      const lifeImgModule = await importer();
-      document.querySelector("#lifeImg").src = lifeImgModule.default;
+      const importerLifeImage = lifeMap[lifeNumber];
+      const lifeImgModule = await importerLifeImage();
+      setLifeImgSrc(() => lifeImgModule.default);
     };
     setImgModule(parseInt(localStorage.getItem("life")));
 
-    if (catState === "Idle") {
+    if (catState === CatState.Idle) {
       lifeTimerId.current = setInterval(() => {
         setLife((number) => {
           if (number - 25 < 0) endLife();
@@ -58,15 +64,15 @@ export default function FeedCatPage(props) {
           }
           return number;
         });
-      }, 12000);
+      }, 120000);
       return;
     }
 
-    if (catState === "Eating") {
+    if (catState === CatState.Eating) {
       const setFoodImgModule = async () => {
-        let randomFoodIndex = Math.floor(Math.random() * 3);
-        const importer = foodMap[foodType[randomFoodIndex]];
-        const setFoodImgModule = await importer();
+        const randomFoodIndex = Math.floor(Math.random() * 3);
+        const importerFoodImage = foodMap[foodType[randomFoodIndex]];
+        const setFoodImgModule = await importerFoodImage();
         setFoodImgRef(() => setFoodImgModule.default);
       };
       setFoodImgModule();
@@ -81,7 +87,7 @@ export default function FeedCatPage(props) {
       });
 
       setTimeout(() => {
-        setcatState("Idle");
+        setcatState(CatState.Idle);
         setFoodImgRef(() => "");
       }, 3000);
       return;
@@ -95,7 +101,7 @@ export default function FeedCatPage(props) {
 
   const feedCat = () => {
     if (life === 100) return;
-    setcatState("Eating");
+    setcatState(CatState.Eating);
   };
 
   return (
@@ -106,7 +112,7 @@ export default function FeedCatPage(props) {
         </div>
         <div className="life-birth-age-center">
           <div className="life-birth-age-row">
-            <img id="lifeImg" />
+            <img id="lifeImg" src={lifeImgSrc} />
             <img className="cakeImg" alt="birthday" src={birthdayCake} />
             <p>
               {birthDate.getMonth() + 1}/{birthDate.getDate()}
@@ -120,7 +126,9 @@ export default function FeedCatPage(props) {
       <div className="catHome">
         <CatCanvas type={localStorage.getItem("type")} />
         <img
-          className={classNames("foodImg", { hide: catState === "Idle" })}
+          className={classNames("foodImg", {
+            hide: catState === CatState.Idle,
+          })}
           src={foodImgRef}
         />
       </div>
